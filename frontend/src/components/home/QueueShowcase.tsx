@@ -61,7 +61,7 @@ export function QueueShowcase() {
 
             <div className="mb-8">
               <div className="text-xs font-bold tracking-widest text-muted-foreground uppercase mb-2">Your Token</div>
-              <div className="text-6xl font-black tracking-tighter">A-27</div>
+              <div className="text-6xl font-black tracking-tighter bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent w-max">A-27</div>
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-8">
@@ -86,9 +86,9 @@ export function QueueShowcase() {
                   <div className="w-2 h-2 rounded-full bg-border" />
                 </div>
               ))}
-              <div className="flex items-center gap-4 font-semibold">
+              <div className="flex items-center gap-4 font-semibold text-blue-500">
                 <span className="w-12">A-27</span>
-                <div className="w-2 h-2 rounded-full bg-foreground" />
+                <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
                 <span className="text-sm">YOU</span>
               </div>
             </div>

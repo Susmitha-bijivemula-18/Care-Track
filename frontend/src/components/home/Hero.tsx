@@ -58,7 +58,7 @@ export function Hero() {
             <div className="pt-4 border-t border-border flex justify-between items-center">
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Token</div>
-                <div className="font-bold text-xl">A-27</div>
+                <div className="font-bold text-xl bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">A-27</div>
               </div>
               <div className="text-right">
                 <div className="text-xs text-muted-foreground mb-1">Estimated wait</div>

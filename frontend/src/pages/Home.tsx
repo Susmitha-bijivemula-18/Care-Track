@@ -7,7 +7,7 @@ import { Specialities } from '../components/home/Specialities';
 import { CareTrackIntro } from '../components/home/CareTrackIntro';
 import { QueueShowcase } from '../components/home/QueueShowcase';
 import { MedicalRecordsShowcase } from '../components/home/MedicalRecordsShowcase';
-import { Testimonials } from '../components/home/Testimonials';
+
 import { FinalCTA } from '../components/home/FinalCTA';
 
 export function Home() {
@@ -22,7 +22,7 @@ export function Home() {
         <CareTrackIntro />
         <QueueShowcase />
         <MedicalRecordsShowcase />
-        <Testimonials />
+
         <FinalCTA />
       </main>
       <Footer />

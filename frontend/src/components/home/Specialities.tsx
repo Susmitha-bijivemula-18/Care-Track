@@ -21,14 +21,14 @@ export function Specialities() {
           <p className="text-lg text-muted-foreground">Connect with specialists across a range of healthcare disciplines.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex gap-4 overflow-x-auto pb-8 snap-x scrollbar-thin">
           {specialities.map((spec, i) => {
             const Icon = spec.icon;
             return (
               <motion.div 
                 key={i}
                 whileHover={{ y: -5 }}
-                className="group p-6 rounded-2xl border border-border bg-background hover:shadow-card transition-all cursor-pointer relative overflow-hidden"
+                className="group p-5 rounded-xl border border-border bg-background hover:shadow-card transition-all cursor-pointer relative overflow-hidden w-[85vw] sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] shrink-0 snap-start"
               >
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-colors ${spec.color}`}>
                   <Icon className="w-6 h-6" />

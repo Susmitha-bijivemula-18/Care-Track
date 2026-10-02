@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export function FinalCTA() {
   return (
-    <section className="py-32 px-4 md:px-8 bg-foreground text-background text-center relative overflow-hidden">
+    <section className="py-20 md:py-24 px-4 md:px-8 bg-foreground text-background text-center relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-20" />
       
       <div className="max-w-3xl mx-auto relative z-10">
