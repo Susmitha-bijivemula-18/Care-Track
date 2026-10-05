@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+import { BookAppointment } from './pages/BookAppointment';
+import { AppointmentForm } from './pages/AppointmentForm';
 import { AppLayout } from './components/layout/AppLayout';
 import { Dashboard } from './pages/Dashboard';
 
@@ -19,6 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/book-appointment/:doctorId" element={<AppointmentForm />} />
         
         {/* Patient Dashboard Routes */}
         <Route path="/patient" element={<AppLayout />}>
