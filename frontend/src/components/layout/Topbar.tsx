@@ -26,35 +26,32 @@ export function Topbar({ onMenuClick }: TopbarProps) {
   }, [isDark]);
 
   return (
-    <header className="h-16 border-b border-border bg-card flex items-center justify-between px-4 lg:px-8">
+    <header className="h-14 border-b border-border bg-background flex items-center justify-between px-4 lg:px-6 sticky top-0 z-10 backdrop-blur-md bg-background/80">
       <div className="flex items-center gap-4">
         <button 
           onClick={onMenuClick}
-          className="p-2 -ml-2 rounded-md hover:bg-muted md:hidden"
+          className="p-1.5 -ml-1.5 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground md:hidden transition-colors"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <div className="hidden md:block">
-          <h2 className="text-lg font-medium">Welcome back, Susmitha</h2>
-        </div>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-4">
+      <div className="flex items-center gap-1.5 sm:gap-2">
         <button 
           onClick={() => setIsDark(!isDark)}
-          className="p-2 rounded-full hover:bg-muted transition-colors"
+          className="p-2 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
           aria-label="Toggle theme"
         >
-          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
         
-        <button className="p-2 rounded-full hover:bg-muted transition-colors relative">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-foreground rounded-full border border-card"></span>
+        <button className="p-2 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors relative">
+          <Bell className="w-4 h-4" />
+          <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-primary rounded-full border-[1.5px] border-background"></span>
         </button>
 
-        <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border ml-2 overflow-hidden">
-          <span className="text-sm font-medium">SU</span>
+        <div className="h-7 w-7 rounded-full bg-secondary flex items-center justify-center border border-border ml-2 overflow-hidden cursor-pointer hover:opacity-80 transition-opacity">
+          <span className="text-[11px] font-semibold text-secondary-foreground tracking-wider">SU</span>
         </div>
       </div>
     </header>

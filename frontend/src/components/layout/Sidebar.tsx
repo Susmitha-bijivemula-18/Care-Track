@@ -29,10 +29,12 @@ export function Sidebar() {
   const navigate = useNavigate();
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-screen border-r border-border bg-card">
+    <aside className="hidden md:flex flex-col w-64 h-screen border-r border-border bg-background">
       <div className="p-6">
-        <h1 className="flex items-center gap-2.5 text-xl font-bold tracking-tight">
-          <img src="/logo.jpg" alt="CareTrack" className="w-8 h-8 rounded-lg dark:invert" />
+        <h1 className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-foreground">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+             <span className="text-primary-foreground text-sm font-bold">CT</span>
+          </div>
           CareTrack
         </h1>
       </div>
@@ -46,14 +48,14 @@ export function Sidebar() {
               to={item.path}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                  "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors group",
                   isActive 
-                    ? "bg-primary text-primary-foreground" 
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "bg-secondary text-secondary-foreground" 
+                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 )
               }
             >
-              <Icon className="w-5 h-5" />
+              <Icon className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
               {item.name}
             </NavLink>
           );
@@ -63,10 +65,10 @@ export function Sidebar() {
       <div className="p-4 mt-auto border-t border-border">
         <button 
           onClick={() => navigate('/')}
-          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors group"
         >
-          <LogOut className="w-5 h-5" />
-          Logout
+          <LogOut className="w-4 h-4 opacity-70 group-hover:opacity-100" />
+          Log out
         </button>
       </div>
     </aside>

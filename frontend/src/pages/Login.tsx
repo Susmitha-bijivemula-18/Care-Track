@@ -31,7 +31,6 @@ export function Login() {
         await signUp(formData.email, formData.password);
         setError('');
         setIsSignUp(false);
-        // Show a success message - in real app would verify email
         alert('Account created! Please check your email for verification, then sign in.');
       } else {
         await signIn(formData.email, formData.password);
@@ -45,28 +44,21 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#ffffff' }}>
+    <div className="min-h-screen flex bg-background">
       {/* Left decorative panel */}
-      <div
-        className="hidden lg:flex lg:w-[45%] relative items-center justify-center p-12"
-        style={{
-          background: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%)',
-        }}
-      >
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-[20%] left-[10%] w-64 h-64 rounded-full opacity-10 bg-white" />
-          <div className="absolute bottom-[15%] right-[15%] w-48 h-48 rounded-full opacity-10 bg-white" />
-          <div className="absolute top-[60%] left-[50%] w-32 h-32 rounded-full opacity-5 bg-white" />
-        </div>
-        <div className="relative z-10 text-white max-w-md">
-          <Link to="/" className="flex items-center gap-2.5 text-2xl font-bold tracking-tighter mb-12 opacity-90 hover:opacity-100 transition-opacity">
-            <img src="/logo.jpg" alt="CareTrack" className="w-10 h-10 rounded-xl invert" />
-            CareTrack
+      <div className="hidden lg:flex lg:w-[45%] relative items-center justify-center p-12 bg-zinc-50 border-r border-border overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="relative z-10 max-w-md">
+          <Link to="/" className="flex items-center gap-2 mb-12 text-foreground hover:opacity-80 transition-opacity">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+               <span className="text-primary-foreground text-sm font-bold">CT</span>
+            </div>
+            <span className="text-xl font-bold tracking-tight">CareTrack</span>
           </Link>
-          <h2 className="text-3xl font-bold tracking-tight mb-4 leading-tight">
-            Your healthcare journey,<br />simplified.
+          <h2 className="text-4xl font-bold tracking-tight mb-4 text-foreground leading-tight text-balance">
+            Your healthcare journey, simplified.
           </h2>
-          <p className="text-lg opacity-80 leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed text-balance">
             Sign in to manage appointments, track your queue, access medical records, and stay connected with your healthcare providers.
           </p>
         </div>
@@ -77,26 +69,25 @@ export function Login() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md"
+          className="w-full max-w-[400px]"
         >
           {/* Back button (mobile) */}
           <Link
             to="/"
-            className="inline-flex items-center gap-2 mb-8 text-sm font-medium transition-colors lg:hidden"
-            style={{ color: '#64748b' }}
+            className="inline-flex items-center gap-2 mb-8 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors lg:hidden"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold tracking-tight mb-2" style={{ color: '#09090b' }}>
-              {isSignUp ? 'Create your account' : 'Welcome back'}
+            <h1 className="text-2xl font-bold tracking-tight text-foreground mb-2">
+              {isSignUp ? 'Create an account' : 'Welcome back'}
             </h1>
-            <p className="text-sm" style={{ color: '#94a3b8' }}>
+            <p className="text-sm text-muted-foreground">
               {isSignUp
-                ? 'Sign up to start managing your healthcare journey'
-                : 'Sign in to access your dashboard and appointments'}
+                ? 'Enter your details below to create your account'
+                : 'Enter your credentials to access your account'}
             </p>
           </div>
 
@@ -104,8 +95,7 @@ export function Login() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 px-4 py-3 rounded-xl mb-6"
-              style={{ background: '#fef2f2', color: '#ef4444', border: '1px solid #fecaca' }}
+              className="flex items-center gap-2 px-4 py-3 rounded-md bg-destructive/10 text-destructive border border-destructive/20 mb-6"
             >
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span className="text-sm font-medium">{error}</span>
@@ -114,33 +104,37 @@ export function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
-            <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: '#334155' }}>
-                Email address
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-foreground">
+                Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#94a3b8' }} />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="your.email@example.com"
+                  placeholder="name@example.com"
                   required
-                  className="w-full pl-11 pr-5 py-3.5 rounded-xl text-sm font-medium outline-none transition-all duration-200 placeholder-[#94a3b8]"
-                  style={{ background: '#f8fafc', border: '1.5px solid #e2e8f0', color: '#09090b' }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = '#3b82f6')}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = '#e2e8f0')}
+                  className="w-full pl-9 pr-4 py-2.5 rounded-md text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all placeholder:text-muted-foreground"
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: '#334155' }}>
-                Password
-              </label>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-foreground">
+                  Password
+                </label>
+                {!isSignUp && (
+                  <button type="button" className="text-xs font-medium text-muted-foreground hover:text-foreground">
+                    Forgot password?
+                  </button>
+                )}
+              </div>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#94a3b8' }} />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
@@ -148,16 +142,12 @@ export function Login() {
                   placeholder="••••••••"
                   required
                   minLength={6}
-                  className="w-full pl-11 pr-12 py-3.5 rounded-xl text-sm font-medium outline-none transition-all duration-200 placeholder-[#94a3b8]"
-                  style={{ background: '#f8fafc', border: '1.5px solid #e2e8f0', color: '#09090b' }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = '#3b82f6')}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = '#e2e8f0')}
+                  className="w-full pl-9 pr-10 py-2.5 rounded-md text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all placeholder:text-muted-foreground"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1"
-                  style={{ color: '#94a3b8' }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -169,12 +159,13 @@ export function Login() {
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
+                className="space-y-2"
               >
-                <label className="block text-sm font-semibold mb-2" style={{ color: '#334155' }}>
+                <label className="block text-sm font-medium text-foreground">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#94a3b8' }} />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input
                     type="password"
                     value={formData.confirmPassword}
@@ -182,48 +173,31 @@ export function Login() {
                     placeholder="••••••••"
                     required
                     minLength={6}
-                    className="w-full pl-11 pr-5 py-3.5 rounded-xl text-sm font-medium outline-none transition-all duration-200 placeholder-[#94a3b8]"
-                    style={{ background: '#f8fafc', border: '1.5px solid #e2e8f0', color: '#09090b' }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = '#3b82f6')}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = '#e2e8f0')}
+                    className="w-full pl-9 pr-4 py-2.5 rounded-md text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all placeholder:text-muted-foreground"
                   />
                 </div>
               </motion.div>
             )}
 
-            {!isSignUp && (
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" className="w-4 h-4 rounded" />
-                  <span className="text-sm" style={{ color: '#64748b' }}>Remember me</span>
-                </label>
-                <button type="button" className="text-sm font-medium" style={{ color: '#3b82f6' }}>
-                  Forgot password?
-                </button>
-              </div>
-            )}
-
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-2xl text-base font-semibold text-white transition-all duration-300 hover:shadow-[0_6px_25px_rgba(59,130,246,0.3)] hover:-translate-y-0.5 disabled:opacity-60"
-              style={{ background: 'linear-gradient(135deg, #3b82f6, #6366f1)' }}
+              className="w-full py-2.5 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm flex justify-center items-center h-10"
             >
               {loading ? (
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  className="w-5 h-5 rounded-full mx-auto"
-                  style={{ border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#ffffff' }}
+                  className="w-4 h-4 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground"
                 />
               ) : (
-                isSignUp ? 'Create Account' : 'Sign In'
+                isSignUp ? 'Create account' : 'Sign in'
               )}
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <span className="text-sm" style={{ color: '#94a3b8' }}>
+          <div className="mt-6 text-center text-sm">
+            <span className="text-muted-foreground">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}
             </span>{' '}
             <button
@@ -231,21 +205,10 @@ export function Login() {
                 setIsSignUp(!isSignUp);
                 setError('');
               }}
-              className="text-sm font-semibold"
-              style={{ color: '#3b82f6' }}
+              className="font-medium text-foreground hover:underline"
             >
-              {isSignUp ? 'Sign In' : 'Sign Up'}
+              {isSignUp ? 'Sign in' : 'Sign up'}
             </button>
-          </div>
-
-          <div className="mt-6 text-center">
-            <Link
-              to="/"
-              className="text-sm font-medium hidden lg:inline-block"
-              style={{ color: '#94a3b8' }}
-            >
-              ← Back to CareTrack Home
-            </Link>
           </div>
         </motion.div>
       </div>

@@ -1,409 +1,313 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Calendar, ChevronRight, Stethoscope, Heart, Shield, Clock, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Calendar, CheckCircle2, Clock, Activity, Bell, FileText, ChevronRight } from 'lucide-react';
+import { cn } from '../../lib/utils';
 
-// ─── Hero images (medical-themed Unsplash) ───────────────────────────────────
-const heroImages = [
-  {
-    url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1200&auto=format&fit=crop',
-    label: 'Modern Care',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop',
-    label: 'Advanced Technology',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?q=80&w=1200&auto=format&fit=crop',
-    label: 'Expert Specialists',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1200&auto=format&fit=crop',
-    label: 'Hospital Facility',
-  },
-];
-
-// ─── Quick-stat pills shown under heading ────────────────────────────────────
-const statPills = [
-  { icon: Heart, label: '25+ Specialities', color: '#ef4444' },
-  { icon: Shield, label: '50K+ Patients', color: '#3b82f6' },
-  { icon: Clock, label: '24/7 Emergency', color: '#8b5cf6' },
+const STATES = [
+  { id: 'confirmed', duration: 3000 },
+  { id: 'queue', duration: 3000 },
+  { id: 'approaching', duration: 4000 },
+  { id: 'consultation', duration: 3000 },
+  { id: 'history', duration: 3000 },
 ];
 
 export function Hero() {
-  const [activeImage, setActiveImage] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Auto-cycle images every 4 seconds
-  const nextImage = useCallback(() => {
-    setActiveImage((prev) => (prev + 1) % heroImages.length);
-  }, []);
-
+  const [currentStateIdx, setCurrentStateIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Handle auto-advance
   useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(nextImage, 4000);
-    return () => clearInterval(timer);
-  }, [nextImage, isPaused]);
+    if (isHovered) return;
+    
+    const timer = setTimeout(() => {
+      setCurrentStateIdx((prev) => (prev + 1) % STATES.length);
+    }, STATES[currentStateIdx].duration);
+    
+    return () => clearTimeout(timer);
+  }, [currentStateIdx, isHovered]);
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: '#ffffff' }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      {/* ── Subtle background pattern ──────────────────────────────────── */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)`,
-        backgroundSize: '40px 40px',
-      }} />
-
-      {/* ── Decorative floating orbs ───────────────────────────────────── */}
-      <motion.div
-        animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-[15%] right-[10%] w-72 h-72 rounded-full opacity-[0.04] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #3b82f6, transparent 70%)' }}
-      />
-      <motion.div
-        animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-[20%] left-[5%] w-96 h-96 rounded-full opacity-[0.03] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #8b5cf6, transparent 70%)' }}
-      />
-
-      {/* ── Main content ───────────────────────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 pt-40 pb-20 md:py-0">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[80vh]">
-
-          {/* ── Left column: Text content ────────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="max-w-xl"
-          >
-            {/* Badge */}
+    <section id="hero" className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden bg-[#FAFAF9]">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-10">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-8 items-center">
+          
+          {/* LEFT: Copy */}
+          <div className="flex flex-col items-start text-left max-w-2xl">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8"
-              style={{
-                background: 'linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%)',
-                border: '1px solid rgba(59, 130, 246, 0.12)',
-              }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 mb-6"
             >
-              <Sparkles className="w-4 h-4" style={{ color: '#3b82f6' }} />
-              <span className="text-xs font-semibold tracking-wide" style={{ color: '#3b82f6' }}>
-                TRUSTED BY 50,000+ PATIENTS
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#0B1B3D]/60">
+                Smart Appointment Care
               </span>
             </motion.div>
 
-            {/* Heading */}
-            <h1
-              className="text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-bold leading-[1.08] tracking-[-0.03em] mb-6"
-              style={{ color: '#09090b' }}
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-5xl md:text-[4.5rem] font-bold tracking-tight text-[#0B1B3D] leading-[1.05]"
             >
-              Your Health,{' '}
-              <span className="relative inline-block">
-                <span
-                  className="relative z-10"
-                  style={{
-                    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  One Clearer
-                </span>
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}
-                  className="absolute bottom-2 left-0 right-0 h-3 rounded-full origin-left -z-0"
-                  style={{ background: 'rgba(59, 130, 246, 0.08)' }}
-                />
-              </span>{' '}
-              Journey.
-            </h1>
+              Less waiting.<br />
+              <span className="text-gray-400">Better care.</span>
+            </motion.h1>
 
-            {/* Subtitle */}
-            <p
-              className="text-lg md:text-xl leading-relaxed mb-8 max-w-lg"
-              style={{ color: '#64748b' }}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-8 text-lg text-gray-500 max-w-md leading-relaxed"
             >
-              Compassionate healthcare, connected through thoughtful technology.
-              Discover specialists, manage appointments, and track your care — all in one place.
-            </p>
+              Know when it's your turn. Get real-time appointment updates,
+              arrive at the right time, and keep your consultation history connected.
+            </motion.p>
 
-            {/* Stat pills */}
-            <div className="flex flex-wrap gap-3 mb-10">
-              {statPills.map((pill, i) => {
-                const Icon = pill.icon;
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + i * 0.1, duration: 0.4 }}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full"
-                    style={{
-                      background: '#f8fafc',
-                      border: '1px solid #e2e8f0',
-                    }}
-                  >
-                    <Icon className="w-4 h-4" style={{ color: pill.color }} />
-                    <span className="text-sm font-medium" style={{ color: '#334155' }}>
-                      {pill.label}
-                    </span>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-12 flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+            >
               <Link
                 to="/book-appointment"
-                className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold text-white transition-all duration-300 hover:shadow-[0_8px_30px_rgba(59,130,246,0.25)] hover:-translate-y-0.5 active:translate-y-0"
-                style={{
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)',
-                }}
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#0B1B3D] text-white text-[13px] uppercase tracking-[0.05em] font-medium transition-all hover:bg-black hover:-translate-y-0.5 shadow-[0_8px_20px_rgba(11,27,61,0.2)]"
               >
-                <Calendar className="w-5 h-5" />
-                Book Appointment
-                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                Book an Appointment
+                <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                to="/login"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
-                style={{
-                  color: '#334155',
-                  background: '#ffffff',
-                  border: '1.5px solid #e2e8f0',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-                }}
+                to="#how-it-works"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-[#0B1B3D] border border-gray-200 text-[13px] uppercase tracking-[0.05em] font-medium transition-all hover:bg-gray-50"
               >
-                <Stethoscope className="w-5 h-5" style={{ color: '#64748b' }} />
-                Patient Login
+                See How It Works
+                <ArrowUpRight className="w-4 h-4 text-gray-400" />
               </Link>
-            </div>
-          </motion.div>
-
-          {/* ── Right column: Floating image gallery ─────────────────── */}
+            </motion.div>
+          </div>
+          
+          {/* RIGHT: Dynamic Product Visualization */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative hidden lg:block"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full max-w-lg mx-auto lg:ml-auto lg:mr-0 aspect-[4/3.5] sm:aspect-square md:aspect-[4/3] lg:aspect-[4/3.5] xl:aspect-[4/3]"
           >
-            {/* Main image container */}
-            <div
-              className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden"
-              style={{
-                boxShadow: '0 25px 60px rgba(0,0,0,0.08), 0 4px 20px rgba(0,0,0,0.04)',
-                border: '1px solid rgba(0,0,0,0.06)',
-              }}
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeImage}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.8, ease: 'easeInOut' }}
-                  className="absolute inset-0"
-                >
-                  <img
-                    src={heroImages[activeImage].url}
-                    alt={heroImages[activeImage].label}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Subtle overlay */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: 'linear-gradient(180deg, transparent 40%, rgba(255,255,255,0.3) 100%)',
-                    }}
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Image label badge */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`label-${activeImage}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute top-6 left-6 px-4 py-2 rounded-full backdrop-blur-xl"
-                  style={{
-                    background: 'rgba(255,255,255,0.85)',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                  }}
-                >
-                  <span className="text-xs font-semibold" style={{ color: '#1e293b' }}>
-                    {heroImages[activeImage].label}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Image navigation dots */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-xl"
-                style={{
-                  background: 'rgba(255,255,255,0.8)',
-                  border: '1px solid rgba(255,255,255,0.4)',
-                }}
-              >
-                {heroImages.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveImage(i)}
-                    className="relative transition-all duration-300"
-                    style={{
-                      width: activeImage === i ? '32px' : '8px',
-                      height: '8px',
-                      borderRadius: '4px',
-                      background: activeImage === i
-                        ? 'linear-gradient(135deg, #3b82f6, #6366f1)'
-                        : 'rgba(0,0,0,0.15)',
-                    }}
-                    aria-label={`View image ${i + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* ── Floating card: top right ─────────────────────────── */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.6 }}
-              className="absolute -top-6 -right-6 z-20"
-            >
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="px-5 py-4 rounded-2xl backdrop-blur-xl"
-                style={{
-                  background: 'rgba(255,255,255,0.95)',
-                  border: '1px solid rgba(0,0,0,0.06)',
-                  boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }}
-                  >
-                    <Shield className="w-5 h-5 text-white" />
+             <div 
+               className="absolute inset-0 bg-white rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden flex flex-col"
+               onMouseEnter={() => setIsHovered(true)}
+               onMouseLeave={() => setIsHovered(false)}
+             >
+                {/* Product Header */}
+                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                  <div className="flex items-center gap-2">
+                     <div className="w-5 h-5 bg-[#0B1B3D] text-white flex items-center justify-center text-[9px] font-bold">CT</div>
+                     <span className="text-xs font-semibold text-[#0B1B3D] tracking-tight">CareTrack</span>
                   </div>
-                  <div>
-                    <div className="text-sm font-bold" style={{ color: '#09090b' }}>99.8%</div>
-                    <div className="text-xs" style={{ color: '#64748b' }}>Patient Satisfaction</div>
-                  </div>
+                  {isHovered && <span className="text-[10px] uppercase tracking-widest text-gray-400 font-medium animate-pulse">Paused</span>}
                 </div>
-              </motion.div>
-            </motion.div>
-
-            {/* ── Floating card: bottom left ───────────────────────── */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.6 }}
-              className="absolute -bottom-4 -left-8 z-20"
-            >
-              <motion.div
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                className="px-5 py-4 rounded-2xl backdrop-blur-xl"
-                style={{
-                  background: 'rgba(255,255,255,0.95)',
-                  border: '1px solid rgba(0,0,0,0.06)',
-                  boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: 'linear-gradient(135deg, #3b82f6, #6366f1)' }}
-                  >
-                    <Calendar className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold" style={{ color: '#09090b' }}>Quick Booking</div>
-                    <div className="text-xs" style={{ color: '#64748b' }}>Under 2 minutes</div>
-                  </div>
+                
+                {/* Dynamic Content Area */}
+                <div className="flex-1 relative bg-white overflow-hidden p-6 md:p-8 flex items-center justify-center">
+                  <AnimatePresence mode="wait">
+                    <ProductState key={currentStateIdx} stateId={STATES[currentStateIdx].id} />
+                  </AnimatePresence>
                 </div>
-              </motion.div>
-            </motion.div>
-
-            {/* ── Floating card: mid right (appointment preview) ──── */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.4, duration: 0.6 }}
-              className="absolute top-[45%] -right-12 z-20"
-            >
-              <motion.div
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-                className="px-5 py-4 rounded-2xl backdrop-blur-xl"
-                style={{
-                  background: 'rgba(255,255,255,0.95)',
-                  border: '1px solid rgba(0,0,0,0.06)',
-                  boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
-                }}
-              >
-                <div className="text-[10px] font-bold tracking-wider uppercase mb-2"
-                  style={{ color: '#3b82f6' }}
-                >
-                  Next Appointment
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center"
-                    style={{ background: '#f1f5f9' }}
-                  >
-                    <Stethoscope className="w-4 h-4" style={{ color: '#6366f1' }} />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold" style={{ color: '#09090b' }}>Dr. Ananya Rao</div>
-                    <div className="text-xs" style={{ color: '#94a3b8' }}>Cardiology • 10:30 AM</div>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
+             </div>
+             
+             {/* Decorative background elements */}
+             <div className="absolute -inset-4 bg-gradient-to-tr from-blue-50 to-transparent opacity-50 blur-2xl -z-10 rounded-3xl pointer-events-none" />
           </motion.div>
+          
         </div>
       </div>
-
-      {/* ── Scroll indicator ───────────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-xs font-medium tracking-wider uppercase" style={{ color: '#94a3b8' }}>
-          Scroll to explore
-        </span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-6 h-10 rounded-full border-2 flex items-start justify-center pt-2"
-          style={{ borderColor: '#cbd5e1' }}
-        >
-          <motion.div
-            animate={{ opacity: [1, 0.3, 1], y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ background: '#94a3b8' }}
-          />
-        </motion.div>
-      </motion.div>
     </section>
   );
+}
+
+// Separate component for the states to keep it clean
+function ProductState({ stateId }: { stateId: string }) {
+  const variants = {
+    initial: { opacity: 0, y: 10, filter: 'blur(2px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+    exit: { opacity: 0, y: -10, filter: 'blur(2px)', transition: { duration: 0.3 } }
+  };
+
+  switch (stateId) {
+    case 'confirmed':
+      return (
+        <motion.div variants={variants} initial="initial" animate="animate" exit="exit" className="w-full max-w-sm flex flex-col gap-6">
+           <div className="flex flex-col gap-1 text-center items-center">
+             <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mb-2">
+               <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+             </div>
+             <h3 className="text-lg font-semibold text-[#0B1B3D]">Appointment Confirmed</h3>
+             <p className="text-sm text-gray-500">Your consultation is scheduled</p>
+           </div>
+           
+           <div className="bg-gray-50 rounded-xl p-5 border border-gray-100 flex flex-col gap-4">
+             <div className="flex items-center gap-3">
+               <div className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden flex-shrink-0">
+                 <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=200&auto=format&fit=crop" alt="Dr" className="w-full h-full object-cover"/>
+               </div>
+               <div>
+                 <h4 className="text-sm font-semibold text-[#0B1B3D]">Dr. Ananya Rao</h4>
+                 <p className="text-xs text-gray-500">General Consultation</p>
+               </div>
+             </div>
+             
+             <div className="flex items-center gap-4 pt-4 border-t border-gray-200">
+               <div className="flex items-center gap-1.5 text-sm text-[#0B1B3D] font-medium">
+                 <Calendar className="w-4 h-4 text-gray-400" />
+                 Today
+               </div>
+               <div className="flex items-center gap-1.5 text-sm text-[#0B1B3D] font-medium">
+                 <Clock className="w-4 h-4 text-gray-400" />
+                 10:30 AM
+               </div>
+             </div>
+           </div>
+        </motion.div>
+      );
+      
+    case 'queue':
+      return (
+        <motion.div variants={variants} initial="initial" animate="animate" exit="exit" className="w-full max-w-sm flex flex-col gap-6">
+           <div className="flex items-center justify-between">
+             <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-400">Your Place in Line</h3>
+             <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider">
+               <span className="relative flex h-1.5 w-1.5">
+                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+               </span>
+               Live
+             </div>
+           </div>
+           
+           <div className="flex items-end justify-between border-b border-gray-100 pb-6">
+             <div>
+               <span className="text-6xl font-light text-[#0B1B3D] tracking-tighter leading-none">#04</span>
+             </div>
+             <div className="text-right">
+               <div className="text-2xl font-medium text-[#0B1B3D]">18 min</div>
+               <div className="text-xs text-gray-500 mt-1">Estimated wait</div>
+             </div>
+           </div>
+           
+           <div>
+             <div className="flex justify-between text-xs text-gray-500 mb-2 font-medium">
+               <span>Current: #01</span>
+               <span>3 patients ahead</span>
+             </div>
+             <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+               <motion.div 
+                 initial={{ width: "10%" }}
+                 animate={{ width: "25%" }}
+                 transition={{ duration: 2.5, ease: "easeInOut" }}
+                 className="h-full bg-[#0B1B3D] rounded-full"
+               />
+             </div>
+           </div>
+        </motion.div>
+      );
+      
+    case 'approaching':
+      return (
+        <motion.div variants={variants} initial="initial" animate="animate" exit="exit" className="w-full max-w-sm flex flex-col gap-5">
+           <div className="bg-[#0B1B3D] rounded-xl p-6 text-white shadow-lg shadow-blue-900/10 relative overflow-hidden">
+             <div className="absolute -top-4 -right-4 p-4 opacity-10 pointer-events-none">
+               <Bell className="w-32 h-32" />
+             </div>
+             
+             <div className="relative z-10">
+               <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-500/20 mb-4">
+                 <Bell className="w-5 h-5 text-blue-300 animate-[bounce_2s_infinite]" />
+               </div>
+               
+               <h3 className="text-lg font-semibold mb-2">Your turn is approaching</h3>
+               <p className="text-sm text-blue-100/80 leading-relaxed pr-4">
+                 Please arrive at the consultation area within the next 10 minutes.
+               </p>
+             </div>
+           </div>
+           
+           <div className="flex items-center gap-4 p-4 border border-gray-100 rounded-xl bg-gray-50">
+             <div className="text-3xl font-light text-[#0B1B3D] w-12">#04</div>
+             <div className="h-8 w-[1px] bg-gray-200"></div>
+             <div>
+               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Next in line for</div>
+               <div className="text-sm font-semibold text-[#0B1B3D]">Dr. Ananya Rao</div>
+             </div>
+           </div>
+        </motion.div>
+      );
+      
+    case 'consultation':
+      return (
+        <motion.div variants={variants} initial="initial" animate="animate" exit="exit" className="w-full max-w-sm flex flex-col items-center text-center gap-6">
+           <div className="relative mt-4">
+             <div className="w-24 h-24 rounded-full bg-gray-100 border-4 border-white shadow-md overflow-hidden relative z-10">
+               <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=200&auto=format&fit=crop" alt="Dr" className="w-full h-full object-cover"/>
+             </div>
+             {/* Pulse rings */}
+             <div className="absolute inset-0 rounded-full border-2 border-blue-500 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20 z-0"></div>
+             <div className="absolute inset-0 rounded-full border-2 border-blue-500 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-10 delay-700 z-0"></div>
+           </div>
+           
+           <div>
+             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider mb-4">
+               <Activity className="w-3.5 h-3.5" />
+               Consultation in Progress
+             </div>
+             <h3 className="text-xl font-semibold text-[#0B1B3D]">Dr. Ananya Rao</h3>
+             <p className="text-sm text-gray-500">General Consultation</p>
+           </div>
+           
+           <div className="w-full border-t border-gray-100 pt-5 mt-2">
+             <div className="flex items-center justify-center gap-2 text-sm">
+               <span className="text-gray-500">Started at</span>
+               <span className="font-semibold text-[#0B1B3D] px-2 py-1 bg-gray-50 rounded">10:30 AM</span>
+             </div>
+           </div>
+        </motion.div>
+      );
+      
+    case 'history':
+      return (
+        <motion.div variants={variants} initial="initial" animate="animate" exit="exit" className="w-full max-w-sm flex flex-col gap-4">
+           <h3 className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2">Previous Consultation</h3>
+           
+           <div className="group border border-gray-100 rounded-xl p-5 hover:border-blue-200 hover:shadow-md transition-all cursor-pointer bg-white">
+             <div className="flex items-start justify-between mb-5">
+               <div className="flex flex-col gap-1">
+                 <span className="text-[13px] font-semibold text-[#0B1B3D]">06 Oct 2026</span>
+                 <span className="text-sm text-gray-500">General Consultation</span>
+               </div>
+               <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                 <FileText className="w-4 h-4" />
+               </div>
+             </div>
+             
+             <div className="flex items-center gap-3 pt-5 border-t border-gray-100">
+               <div className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+                 <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=200&auto=format&fit=crop" alt="Dr" className="w-full h-full object-cover"/>
+               </div>
+               <div className="flex-1">
+                 <h4 className="text-sm font-semibold text-[#0B1B3D]">Dr. Ananya Rao</h4>
+               </div>
+             </div>
+             
+             <div className="mt-6 flex items-center text-[12px] font-bold uppercase tracking-wider text-blue-600 group-hover:text-blue-700">
+               View prescription & notes
+               <ChevronRight className="w-3.5 h-3.5 ml-1 transform group-hover:translate-x-1 transition-transform" />
+             </div>
+           </div>
+        </motion.div>
+      );
+      
+    default:
+      return null;
+  }
 }
