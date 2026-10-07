@@ -34,42 +34,42 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #09090b;
-    --card: #ffffff;
-    --card-foreground: #09090b;
-    --border: #e4e4e7;
-    --input: #e4e4e7;
-    --ring: #18181b;
-    --primary: #18181b;
-    --primary-foreground: #fafafa;
-    --secondary: #f4f4f5;
-    --secondary-foreground: #18181b;
-    --muted: #f4f4f5;
-    --muted-foreground: #71717a;
-    --accent: #f4f4f5;
-    --accent-foreground: #18181b;
+    --background: #FAFAF9;
+    --foreground: #0A0A0A;
+    --card: #FFFFFF;
+    --card-foreground: #0A0A0A;
+    --border: #E5E5E3;
+    --input: #E5E5E3;
+    --ring: #0A0A0A;
+    --primary: #0A0A0A;
+    --primary-foreground: #FFFFFF;
+    --secondary: #F4F4F2;
+    --secondary-foreground: #0A0A0A;
+    --muted: #F4F4F2;
+    --muted-foreground: #66676B;
+    --accent: #F4F4F2;
+    --accent-foreground: #0A0A0A;
     --destructive: #ef4444;
     --destructive-foreground: #fafafa;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #fafafa;
-    --card: #09090b;
-    --card-foreground: #fafafa;
-    --border: #27272a;
-    --input: #27272a;
-    --ring: #d4d4d8;
-    --primary: #fafafa;
-    --primary-foreground: #18181b;
-    --secondary: #27272a;
-    --secondary-foreground: #fafafa;
-    --muted: #27272a;
-    --muted-foreground: #a1a1aa;
-    --accent: #27272a;
-    --accent-foreground: #fafafa;
+    --background: #080808;
+    --foreground: #F5F5F5;
+    --card: #111214;
+    --card-foreground: #F5F5F5;
+    --border: #28292C;
+    --input: #28292C;
+    --ring: #F5F5F5;
+    --primary: #F5F5F5;
+    --primary-foreground: #080808;
+    --secondary: #17181A;
+    --secondary-foreground: #F5F5F5;
+    --muted: #17181A;
+    --muted-foreground: #A1A1A6;
+    --accent: #17181A;
+    --accent-foreground: #F5F5F5;
     --destructive: #7f1d1d;
     --destructive-foreground: #fafafa;
   }
@@ -88,6 +88,7 @@
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
+    transition: background-color 400ms ease-in-out, color 400ms ease-in-out;
   }
 
   /* Focus ring for accessibility, premium style */

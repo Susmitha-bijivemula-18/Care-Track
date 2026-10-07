@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Menu, X } from 'lucide-react';
+import { Calendar, Menu, X, Sun, Moon } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('theme');
+      if (stored) return stored === 'dark';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -14,6 +23,27 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { href: '#about', label: 'About' },
@@ -26,9 +56,9 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out',
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out',
           isScrolled
-            ? 'py-3 bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]'
+            ? 'py-3 bg-background/95 backdrop-blur-md border-b border-border shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] dark:shadow-none'
             : 'py-6 bg-transparent border-b border-transparent'
         )}
       >
@@ -42,10 +72,10 @@ export function Navbar() {
             >
               {/* Requested Heart & Pulse Logo with Glow Effect */}
               <div 
-                className="flex items-center justify-center w-9 h-9"
-                style={{ filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.3))' }}
+                className="flex items-center justify-center w-9 h-9 transition-colors duration-500 text-foreground"
+                style={{ filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.1))' }}
               >
-                <svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-black">
+                <svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-foreground">
                   <path d="M16 26.5C16 26.5 6 19.5 6 13.5C6 10 8.5 8 11.5 8C14 8 15.5 9.5 16 11C16.5 9.5 18 8 20.5 8C23.5 8 26 10 26 13.5C26 19.5 16 26.5 16 26.5Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                   {/* Functional Animated ECG Pulse */}
                   <path 
@@ -59,14 +89,13 @@ export function Navbar() {
               </div>
               
               <div 
-                className="flex flex-col justify-center pt-1"
-                style={{ filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.15))' }}
+                className="flex flex-col justify-center pt-1 transition-colors duration-500"
               >
-                <span className="text-[24px] leading-[0.9] tracking-tight text-black flex items-center">
+                <span className="text-[24px] leading-[0.9] tracking-tight text-foreground flex items-center">
                   <strong className="font-extrabold">Care</strong>
                   <span className="font-light">Track</span>
                 </span>
-                <span className="text-[8.5px] leading-tight font-semibold uppercase tracking-[0.2em] text-gray-500 mt-[3px]">
+                <span className="text-[8.5px] leading-tight font-semibold uppercase tracking-[0.2em] text-muted-foreground mt-[3px]">
                   Less waiting. Better care.
                 </span>
               </div>
@@ -76,36 +105,44 @@ export function Navbar() {
           {/* CENTER: Refined Navigation Composition */}
           <nav className="hidden lg:flex flex-none items-center justify-center">
             <div className={cn(
-              "flex items-center gap-1 transition-all duration-500 ease-out",
-              isScrolled ? "bg-gray-50/80 px-2 py-1 rounded-sm border border-gray-200" : "px-0 py-0"
+              "flex items-center gap-1 transition-all duration-500 ease-in-out",
+              isScrolled ? "bg-secondary/80 px-2 py-1 rounded-sm border border-border" : "px-0 py-0"
             )}>
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "relative px-4 xl:px-5 py-2 text-[12px] xl:text-[13px] uppercase tracking-[0.08em] font-bold text-gray-900 transition-all duration-300",
-                    "hover:text-black hover:bg-black/[0.03] group overflow-hidden rounded-md whitespace-nowrap"
+                    "relative px-4 xl:px-5 py-2 text-[12px] xl:text-[13px] uppercase tracking-[0.08em] font-bold text-foreground opacity-80 transition-all duration-300",
+                    "hover:opacity-100 hover:bg-foreground/5 group overflow-hidden rounded-md whitespace-nowrap"
                   )}
                 >
                   <span className="relative z-10">{link.label}</span>
-                  <span className="absolute bottom-1.5 left-5 right-5 h-[2px] bg-black transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+                  <span className="absolute bottom-1.5 left-5 right-5 h-[2px] bg-foreground transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
                 </a>
               ))}
             </div>
           </nav>
 
-          {/* RIGHT: Secondary Action & Signature CTA */}
+          {/* RIGHT: Secondary Action & Signature CTA & Theme Toggle */}
           <div className="hidden md:flex flex-1 items-center justify-end gap-4 xl:gap-6 z-50">
+            
+            <button 
+              onClick={() => setIsDark(!isDark)}
+              className="w-8 h-8 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground transition-colors duration-300"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun className="w-[18px] h-[18px]" strokeWidth={2} /> : <Moon className="w-[18px] h-[18px]" strokeWidth={2} />}
+            </button>
 
             {/* Highlighted Patient Login */}
             <Link
               to="/login"
               className={cn(
-                "relative inline-flex items-center justify-center px-5 py-2.5 border border-black rounded-none",
-                "text-[12px] xl:text-[13px] uppercase tracking-[0.05em] font-medium text-black",
+                "relative inline-flex items-center justify-center px-5 py-2.5 border border-border rounded-none",
+                "text-[12px] xl:text-[13px] uppercase tracking-[0.05em] font-medium text-foreground",
                 "transition-all duration-300 ease-out overflow-hidden group whitespace-nowrap",
-                "hover:bg-black hover:text-white hover:shadow-[0_4px_14px_0_rgba(0,0,0,0.1)]"
+                "hover:border-foreground"
               )}
             >
               <span className="relative z-10">Patient Login</span>
@@ -115,23 +152,30 @@ export function Navbar() {
             <Link
               to="/book-appointment"
               className={cn(
-                "group relative inline-flex items-center gap-2.5 px-5 xl:px-6 py-2.5 border border-black rounded-none",
-                "bg-black text-white text-[12px] xl:text-[13px] uppercase tracking-[0.05em] font-medium",
+                "group relative inline-flex items-center gap-2.5 px-5 xl:px-6 py-2.5 rounded-none",
+                "bg-foreground text-background border border-transparent dark:border-border",
+                "text-[12px] xl:text-[13px] uppercase tracking-[0.05em] font-medium",
                 "transition-all duration-300 ease-out hover:-translate-y-0.5",
-                "shadow-[0_4px_14px_0_rgba(0,0,0,0.15)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)]",
+                "shadow-[0_4px_14px_0_rgba(0,0,0,0.15)] dark:shadow-none hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] dark:hover:bg-card dark:hover:text-foreground",
                 "overflow-hidden whitespace-nowrap"
               )}
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 dark:from-black/0 dark:via-black/5 dark:to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <Calendar className="w-4 h-4 transition-transform duration-300 group-hover:-rotate-6" />
               <span className="relative z-10">Book Appointment</span>
             </Link>
           </div>
 
           {/* Mobile Menu Trigger */}
-          <div className="md:hidden flex-1 flex justify-end z-50">
+          <div className="md:hidden flex-1 flex justify-end gap-3 z-50 items-center">
+            <button 
+              onClick={() => setIsDark(!isDark)}
+              className="w-8 h-8 flex items-center justify-center text-muted-foreground"
+            >
+              {isDark ? <Sun className="w-5 h-5" strokeWidth={1.5} /> : <Moon className="w-5 h-5" strokeWidth={1.5} />}
+            </button>
             <button
-              className="flex items-center justify-center w-10 h-10 text-black hover:opacity-70 transition-opacity"
+              className="flex items-center justify-center w-10 h-10 text-foreground hover:opacity-70 transition-opacity"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6 stroke-[1.5]" />}
@@ -142,18 +186,19 @@ export function Navbar() {
         {/* Premium Mobile Navigation Panel */}
         <div
           className={cn(
-            "fixed inset-0 bg-white/98 backdrop-blur-xl z-40 transition-all duration-500 ease-in-out md:hidden flex flex-col justify-center px-8",
+            "fixed inset-0 w-full h-[100dvh] bg-background/98 backdrop-blur-xl z-40 transition-all duration-500 ease-in-out md:hidden overflow-y-auto",
             isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           )}
         >
-          <nav className="flex flex-col gap-6 mt-12">
+          <div className="flex flex-col min-h-full justify-center px-8 py-28">
+            <nav className="flex flex-col gap-6">
             {navLinks.map((link, idx) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
-                  "text-3xl font-light tracking-tight text-black hover:opacity-60 transition-opacity",
+                  "text-3xl font-light tracking-tight text-foreground hover:opacity-60 transition-opacity",
                   isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
                 )}
                 style={{ transitionDelay: `${idx * 100}ms`, transitionDuration: '500ms' }}
@@ -165,7 +210,7 @@ export function Navbar() {
           
           <div 
             className={cn(
-              "mt-12 flex flex-col gap-4 border-t border-gray-200 pt-8 transition-all duration-700 delay-300",
+              "mt-12 flex flex-col gap-4 border-t border-border pt-8 transition-all duration-700 delay-300",
               isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             )}
           >
@@ -173,18 +218,19 @@ export function Navbar() {
             <Link
               to="/login"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="inline-flex items-center justify-center w-full py-4 border border-black rounded-none text-black text-sm uppercase tracking-widest font-medium transition-colors hover:bg-black hover:text-white"
+              className="inline-flex items-center justify-center w-full py-4 border border-border rounded-none text-foreground text-sm uppercase tracking-widest font-medium transition-colors hover:border-foreground"
             >
               Patient Login
             </Link>
             <Link
               to="/book-appointment"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="inline-flex items-center justify-center gap-2 w-full py-4 rounded-none bg-black text-white text-sm uppercase tracking-widest font-medium shadow-lg transition-transform active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 w-full py-4 rounded-none bg-foreground text-background text-sm uppercase tracking-widest font-medium shadow-lg transition-transform active:scale-[0.98]"
             >
               <Calendar className="w-5 h-5" />
               Book Appointment
             </Link>
+          </div>
           </div>
         </div>
       </header>

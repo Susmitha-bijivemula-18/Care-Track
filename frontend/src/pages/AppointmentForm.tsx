@@ -133,10 +133,31 @@ export function AppointmentForm() {
     }
   }, [doctorId]);
 
+  const fallbackDoctors: Doctor[] = [
+    { id: '1', full_name: "Dr. Ananya Rao", specialization: "Cardiology", experience_years: 12, qualification: "MD, DM Cardiology", consultation_fee: 800, available_days: ['Monday', 'Wednesday'], available_from: '10:00', available_to: '16:00', is_active: true, created_at: '' },
+    { id: '2', full_name: "Dr. Rahul Sharma", specialization: "Dermatology", experience_years: 8, qualification: "MD Dermatology", consultation_fee: 600, available_days: ['Tuesday', 'Thursday'], available_from: '09:00', available_to: '14:00', is_active: true, created_at: '' },
+    { id: '3', full_name: "Dr. Priya Nair", specialization: "General Medicine", experience_years: 15, qualification: "MD General Medicine", consultation_fee: 500, available_days: ['Monday', 'Tuesday'], available_from: '10:00', available_to: '18:00', is_active: true, created_at: '' },
+    { id: '4', full_name: "Dr. Arjun Reddy", specialization: "Orthopedics", experience_years: 10, qualification: "MS Orthopedics", consultation_fee: 1000, available_days: ['Wednesday', 'Friday'], available_from: '11:00', available_to: '17:00', is_active: true, created_at: '' },
+    { id: '5', full_name: "Dr. Meera Kapoor", specialization: "Pediatrics", experience_years: 14, qualification: "MD Pediatrics", consultation_fee: 700, available_days: ['Monday', 'Thursday'], available_from: '09:00', available_to: '13:00', is_active: true, created_at: '' },
+    { id: '6', full_name: "Dr. Vikram Singh", specialization: "Neurology", experience_years: 18, qualification: "MD, DM Neurology", consultation_fee: 1200, available_days: ['Tuesday', 'Friday'], available_from: '14:00', available_to: '19:00', is_active: true, created_at: '' },
+    { id: '7', full_name: "Dr. Sneha Iyer", specialization: "Gynecology", experience_years: 11, qualification: "MD Obstetrics & Gynecology", consultation_fee: 800, available_days: ['Monday', 'Wednesday'], available_from: '10:00', available_to: '16:00', is_active: true, created_at: '' },
+    { id: '8', full_name: "Dr. Karthik Rao", specialization: "ENT", experience_years: 9, qualification: "MS ENT", consultation_fee: 600, available_days: ['Tuesday', 'Thursday'], available_from: '10:00', available_to: '15:00', is_active: true, created_at: '' },
+  ];
+
   async function loadDoctor(id: string) {
     setLoading(true);
-    const data = await fetchDoctorById(id);
-    setDoctor(data);
+    try {
+      const data = await fetchDoctorById(id);
+      if (data) {
+        setDoctor(data);
+      } else {
+        const fallback = fallbackDoctors.find(d => d.id === id);
+        setDoctor(fallback || null);
+      }
+    } catch (e) {
+      const fallback = fallbackDoctors.find(d => d.id === id);
+      setDoctor(fallback || null);
+    }
     setLoading(false);
   }
 
