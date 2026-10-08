@@ -9,6 +9,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        heading: ['Manrope', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',

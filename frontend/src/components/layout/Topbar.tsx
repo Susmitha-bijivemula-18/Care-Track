@@ -1,6 +1,7 @@
 import { Menu, Moon, Sun, Bell } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '../../lib/utils';
+import { CareTrackIcon } from '../ui/Logo';
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -34,6 +35,7 @@ export function Topbar({ onMenuClick }: TopbarProps) {
         >
           <Menu className="w-5 h-5" />
         </button>
+        <CareTrackIcon className="w-6 h-6 md:hidden" />
       </div>
 
       <div className="flex items-center gap-1.5 sm:gap-2">

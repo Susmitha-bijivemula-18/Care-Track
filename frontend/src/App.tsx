@@ -5,6 +5,7 @@ import { BookAppointment } from './pages/BookAppointment';
 import { AppointmentForm } from './pages/AppointmentForm';
 import { AppLayout } from './components/layout/AppLayout';
 import { Dashboard } from './pages/Dashboard';
+import { QueueTracking } from './pages/QueueTracking';
 
 const Placeholder = ({ title }: { title: string }) => (
   <div className="flex items-center justify-center h-64 border-2 border-dashed border-border rounded-xl">
@@ -30,7 +31,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="doctors" element={<Placeholder title="Find Doctors" />} />
           <Route path="appointments" element={<Placeholder title="Appointments" />} />
-          <Route path="queue" element={<Placeholder title="Queue Tracking" />} />
+          <Route path="queue" element={<QueueTracking />} />
           <Route path="records" element={<Placeholder title="Medical Records" />} />
           <Route path="history" element={<Placeholder title="Health History" />} />
           <Route path="notifications" element={<Placeholder title="Notifications" />} />

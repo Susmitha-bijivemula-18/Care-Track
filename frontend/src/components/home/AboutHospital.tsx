@@ -16,183 +16,114 @@ export function AboutHospital() {
   };
 
   return (
-    <section id="about" className="relative pt-20 pb-16 md:pt-24 md:pb-20 px-6 md:px-12 lg:px-24 bg-background transition-colors duration-500 overflow-hidden">
+    <section id="about" className="relative py-12 md:py-20 px-6 md:px-12 lg:px-24 bg-background transition-colors duration-500 overflow-hidden">
       <div className="w-full max-w-[76rem] mx-auto">
         
         {/* Main Content Split */}
-        <div className="grid lg:grid-cols-[44%_56%] gap-12 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           
           {/* LEFT SIDE: Typography & Explanation */}
-          <div className="flex flex-col items-start relative z-10 lg:pt-2">
+          <div className="flex flex-col items-start relative z-10">
             <motion.div 
               custom={0} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
-              className="flex items-center gap-3 mb-6"
+              className="flex items-center gap-2 mb-6"
             >
-              <div className="w-[1px] h-3 bg-foreground/30"></div>
-              <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-foreground transition-colors duration-500">
+              <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
+              <span className="text-xs font-semibold uppercase tracking-wider text-brand transition-colors duration-500">
                 Why CareTrack
               </span>
             </motion.div>
             
             <motion.h2 
               custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
-              className="text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-foreground leading-[1.05] mb-6 max-w-[480px]"
+              className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-6 max-w-[480px]"
             >
-              Healthcare shouldn't mean <span className="text-muted-foreground">waiting without knowing.</span>
+              Healthcare shouldn't mean <span className="text-muted-foreground font-medium">waiting without knowing.</span>
             </motion.h2>
 
             <motion.p 
               custom={2} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
-              className="text-[13px] text-muted-foreground max-w-[400px] leading-relaxed mb-8"
+              className="text-base md:text-lg text-foreground/90 max-w-[400px] leading-relaxed"
             >
-              CareTrack is designed to give patients more control over their time. Instead of sitting in a waiting room with no idea when their turn will come, patients can follow their appointment, receive timely updates, and arrive when it actually matters.
+              Know when it's your turn. See your queue position, get timely updates, and arrive when you're needed.
             </motion.p>
-
-            <motion.div 
-              custom={3} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
-              className="flex flex-col gap-1 pl-3 border-l border-foreground"
-            >
-              <div className="text-[9px] font-bold tracking-[0.25em] uppercase text-foreground">Less Uncertainty.</div>
-              <div className="text-[9px] font-bold tracking-[0.25em] uppercase text-foreground">More Time For Care.</div>
-            </motion.div>
           </div>
           
-          {/* RIGHT SIDE: Editorial Flow Diagram */}
-          <div className="w-full flex justify-start lg:justify-end relative mt-6 lg:mt-0">
-            <div className="w-full max-w-[440px] flex flex-col relative py-2">
-              
-              {/* Absolute vertical connecting line */}
-              <motion.div 
-                custom={3} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
-                className="absolute left-[7px] top-4 bottom-10 w-[1px] bg-border origin-top"
-              />
-
-              {/* 1. THE OLD WAY */}
-              <motion.div custom={4} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant} className="flex flex-col relative mb-8 pl-8">
-                <div className="absolute left-0 top-1.5 w-4 h-[1px] bg-border" />
-                <span className="text-[9px] uppercase tracking-[0.25em] text-muted-foreground font-medium mb-4">The Old Way</span>
-                
-                <div className="flex flex-col gap-3.5 opacity-60">
-                  <div>
-                    <span className="block text-[8px] uppercase tracking-[0.2em] text-muted-foreground mb-0.5">Patients Ahead</span>
-                    <span className="text-[13px] font-light tracking-wide text-foreground">— Unknown</span>
-                  </div>
-                  <div>
-                    <span className="block text-[8px] uppercase tracking-[0.2em] text-muted-foreground mb-0.5">Waiting Time</span>
-                    <span className="text-[13px] font-light tracking-wide text-foreground">— Uncertain</span>
-                  </div>
-                  <div>
-                    <span className="block text-[8px] uppercase tracking-[0.2em] text-muted-foreground mb-0.5">Status</span>
-                    <span className="text-[13px] font-light tracking-wide text-foreground">— Waiting</span>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* 2. THE TRANSITION */}
-              <motion.div custom={5} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant} className="flex flex-col relative mb-8">
-                <div className="flex flex-col items-start gap-2.5">
-                  <div className="pl-8 text-[8px] font-medium tracking-[0.3em] uppercase text-muted-foreground bg-background py-0.5 relative">
-                    <div className="absolute left-0 top-1/2 w-4 h-[1px] bg-border" />
-                    Uncertainty
-                  </div>
-                  
-                  <div className="pl-8 text-[11px] font-bold tracking-[0.4em] uppercase text-foreground bg-background py-1 relative">
-                    <div className="absolute left-[-2px] top-1/2 w-[19px] h-[1px] bg-foreground" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-foreground absolute left-[-3px] top-1/2 -translate-y-1/2" />
-                    CARETRACK
-                  </div>
-                  
-                  <div className="pl-8 text-[8px] font-medium tracking-[0.3em] uppercase text-muted-foreground bg-background py-0.5 relative">
-                    <div className="absolute left-0 top-1/2 w-4 h-[1px] bg-border" />
-                    Clarity
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* 3. THE CARETRACK WAY */}
-              <motion.div custom={6} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant} className="flex flex-col relative mb-5 pl-8">
-                <div className="absolute left-0 top-1.5 w-4 h-[1px] bg-border" />
-                <span className="text-[9px] uppercase tracking-[0.25em] text-foreground font-semibold mb-4">The CareTrack Way</span>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
+          {/* RIGHT SIDE: Experience Comparison */}
+          <div className="w-full flex flex-col gap-4 lg:pl-10 mt-8 lg:mt-0">
+            
+            {/* The Old Way */}
+            <motion.div 
+              custom={3} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
+              className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl bg-secondary/50 border border-border/50 text-muted-foreground opacity-70"
+            >
+               <div className="flex items-center mb-3 sm:mb-0">
+                  <span className="text-xs font-semibold uppercase tracking-wider">The Old Way</span>
+               </div>
+               <div className="flex items-center gap-6 text-sm">
                   <div className="flex flex-col">
-                    <span className="text-[8px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Your Position</span>
-                    <span className="text-[2.25rem] leading-none font-light tracking-tighter text-foreground">#04</span>
+                    <span className="text-[10px] uppercase tracking-wider opacity-80">Position</span>
+                    <span className="font-medium">— Unknown</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[8px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Estimated Wait</span>
-                    <span className="text-[2.25rem] leading-none font-light tracking-tighter text-foreground">12 <span className="text-base tracking-widest text-muted-foreground">MIN</span></span>
+                    <span className="text-[10px] uppercase tracking-wider opacity-80">Wait Time</span>
+                    <span className="font-medium">— Uncertain</span>
                   </div>
-                </div>
-                
-                <div className="flex flex-col">
-                  <span className="text-[8px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Status</span>
-                  <span className="text-sm font-light tracking-wide text-foreground flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-foreground animate-pulse" />
-                    Your turn approaching
-                  </span>
-                </div>
-              </motion.div>
+               </div>
+            </motion.div>
 
-              {/* 4. NOTIFICATION HERO MOMENT */}
-              <motion.div custom={7} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant} className="relative pl-6 sm:pl-8">
-                <div className="absolute left-0 top-5 w-4 h-[1px] bg-border" />
-                
-                <div className="flex flex-col p-4 sm:p-5 bg-card border border-border shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] dark:shadow-none">
-                  <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-foreground mb-2 block">
-                    Your turn is approaching
-                  </span>
-                  <span className="text-[12px] font-medium text-muted-foreground leading-relaxed mb-4 block">
-                    Please arrive at the consultation area in approximately 10 minutes.
-                  </span>
-                  
-                  <div className="pt-3 border-t border-border">
-                    <span className="text-[8px] uppercase tracking-[0.2em] font-semibold text-muted-foreground block">
-                      Know when to leave.
-                    </span>
-                    <span className="text-[8px] uppercase tracking-[0.2em] font-semibold text-foreground block mt-0.5">
-                      Arrive when it matters.
+            {/* The CareTrack Way */}
+            <motion.div 
+              custom={4} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
+              className="flex flex-col p-6 sm:p-8 rounded-2xl bg-card border border-border shadow-sm relative overflow-hidden"
+            >
+               <div className="absolute top-0 left-0 w-full h-1 bg-brand" />
+               <span className="text-xs font-semibold uppercase tracking-wider text-brand mb-6 block">With CareTrack</span>
+               
+               <div className="flex flex-row gap-10 sm:gap-16 mb-8">
+                  <div className="flex flex-col">
+                    <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-2">Your Position</span>
+                    <span className="text-5xl sm:text-6xl font-heading font-semibold tracking-tight text-foreground leading-none">#04</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-2">Estimated Wait</span>
+                    <span className="text-5xl sm:text-6xl font-heading font-semibold tracking-tight text-foreground leading-none">
+                      12<span className="text-2xl sm:text-3xl text-muted-foreground font-medium tracking-normal ml-1">min</span>
                     </span>
                   </div>
-                </div>
-                
-              </motion.div>
+               </div>
 
-            </div>
+               <div className="flex items-center gap-3 px-4 py-3.5 bg-secondary/30 rounded-xl border border-border/50 w-fit">
+                 <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+                 <span className="text-sm font-medium text-foreground">Status: <span className="font-semibold ml-1 text-brand">Your turn approaching</span></span>
+               </div>
+            </motion.div>
+
           </div>
           
         </div>
 
         {/* BOTTOM HIGHLIGHTS */}
         <motion.div 
-          custom={8} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-20px" }} variants={fadeUpVariant}
-          className="mt-14 pt-8 border-t border-border grid grid-cols-1 sm:grid-cols-3 gap-6"
+          custom={5} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-20px" }} variants={fadeUpVariant}
+          className="mt-16 pt-8 border-t border-border grid grid-cols-1 sm:grid-cols-3 gap-8"
         >
           {/* Highlight 01 */}
           <div className="flex flex-col pr-4 sm:border-r border-border/50">
-            <div className="flex items-baseline gap-2 mb-1.5">
-              <span className="text-sm font-light text-muted-foreground/40">01</span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground">Real-Time Queue</span>
-            </div>
-            <span className="text-[11px] text-muted-foreground leading-relaxed">Know where you stand at all times.</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-foreground mb-2">Real-Time Queue</span>
+            <span className="text-sm text-muted-foreground leading-relaxed">Know where you stand at all times.</span>
           </div>
           
           {/* Highlight 02 */}
           <div className="flex flex-col pr-4 sm:border-r border-border/50">
-             <div className="flex items-baseline gap-2 mb-1.5">
-              <span className="text-sm font-light text-muted-foreground/40">02</span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground">Timely Notifications</span>
-            </div>
-            <span className="text-[11px] text-muted-foreground leading-relaxed">Know exactly when to arrive.</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-foreground mb-2">Timely Notifications</span>
+            <span className="text-sm text-muted-foreground leading-relaxed">Know exactly when to arrive.</span>
           </div>
 
           {/* Highlight 03 */}
           <div className="flex flex-col pr-4">
-            <div className="flex items-baseline gap-2 mb-1.5">
-              <span className="text-sm font-light text-muted-foreground/40">03</span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground">Connected History</span>
-            </div>
-            <span className="text-[11px] text-muted-foreground leading-relaxed">Keep your consultations organized.</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-foreground mb-2">Visit History</span>
+            <span className="text-sm text-muted-foreground leading-relaxed">Keep your consultations organized.</span>
           </div>
         </motion.div>
 

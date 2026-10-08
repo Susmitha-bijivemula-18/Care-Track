@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, ArrowLeft, Mail, Lock, AlertCircle } from 'lucide-react';
 import { signIn, signUp } from '../lib/supabase';
+import { CareTrackLogoCompact } from '../components/ui/Logo';
 
 export function Login() {
   const navigate = useNavigate();
@@ -49,12 +50,7 @@ export function Login() {
       <div className="hidden lg:flex lg:w-[45%] relative items-center justify-center p-12 bg-zinc-50 border-r border-border overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="relative z-10 max-w-md">
-          <Link to="/" className="flex items-center gap-2 mb-12 text-foreground hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-               <span className="text-primary-foreground text-sm font-bold">CT</span>
-            </div>
-            <span className="text-xl font-bold tracking-tight">CareTrack</span>
-          </Link>
+          <CareTrackLogoCompact className="mb-12" />
           <h2 className="text-4xl font-bold tracking-tight mb-4 text-foreground leading-tight text-balance">
             Your healthcare journey, simplified.
           </h2>
@@ -82,12 +78,12 @@ export function Login() {
 
           <div className="mb-8">
             <h1 className="text-2xl font-bold tracking-tight text-foreground mb-2">
-              {isSignUp ? 'Create an account' : 'Welcome back'}
+              {isSignUp ? 'Create an account' : 'Welcome back.'}
             </h1>
             <p className="text-sm text-muted-foreground">
               {isSignUp
                 ? 'Enter your details below to create your account'
-                : 'Enter your credentials to access your account'}
+                : 'View your appointments, queue status, and care history.'}
             </p>
           </div>
 
@@ -191,7 +187,7 @@ export function Login() {
                   className="w-4 h-4 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground"
                 />
               ) : (
-                isSignUp ? 'Create account' : 'Sign in'
+                isSignUp ? 'Create Account' : 'Sign In'
               )}
             </button>
           </form>
@@ -207,7 +203,7 @@ export function Login() {
               }}
               className="font-medium text-foreground hover:underline"
             >
-              {isSignUp ? 'Sign in' : 'Sign up'}
+              {isSignUp ? 'Sign In' : 'Create one'}
             </button>
           </div>
         </motion.div>

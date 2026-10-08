@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Menu, X, Sun, Moon } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { CareTrackLogo } from '../ui/Logo';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,40 +67,7 @@ export function Navbar() {
           
           {/* LEFT: Brand Lockup */}
           <div className="flex-1 flex items-center justify-start z-50">
-            <Link
-              to="/"
-              className="group flex items-center gap-3 transition-transform duration-300 hover:scale-[0.98]"
-            >
-              {/* Requested Heart & Pulse Logo with Glow Effect */}
-              <div 
-                className="flex items-center justify-center w-9 h-9 transition-colors duration-500 text-foreground"
-                style={{ filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.1))' }}
-              >
-                <svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-foreground">
-                  <path d="M16 26.5C16 26.5 6 19.5 6 13.5C6 10 8.5 8 11.5 8C14 8 15.5 9.5 16 11C16.5 9.5 18 8 20.5 8C23.5 8 26 10 26 13.5C26 19.5 16 26.5 16 26.5Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  {/* Functional Animated ECG Pulse */}
-                  <path 
-                    d="M 9.5 15 H 12.5 L 13.5 16.5 L 16 9 L 18 20 L 19.5 15 H 22.5" 
-                    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                    strokeDasharray="35 35"
-                  >
-                    <animate attributeName="stroke-dashoffset" values="35;-35" dur="2s" repeatCount="indefinite" />
-                  </path>
-                </svg>
-              </div>
-              
-              <div 
-                className="flex flex-col justify-center pt-1 transition-colors duration-500"
-              >
-                <span className="text-[24px] leading-[0.9] tracking-tight text-foreground flex items-center">
-                  <strong className="font-extrabold">Care</strong>
-                  <span className="font-light">Track</span>
-                </span>
-                <span className="text-[8.5px] leading-tight font-semibold uppercase tracking-[0.2em] text-muted-foreground mt-[3px]">
-                  Less waiting. Better care.
-                </span>
-              </div>
-            </Link>
+            <CareTrackLogo />
           </div>
 
           {/* CENTER: Refined Navigation Composition */}

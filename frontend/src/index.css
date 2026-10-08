@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", sans-serif;
+  --font-heading: "Manrope", sans-serif;
   
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -21,6 +22,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
   
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -35,41 +38,45 @@
 @layer base {
   :root {
     --background: #FAFAF9;
-    --foreground: #0A0A0A;
+    --foreground: #171717; /* Dark charcoal instead of pure black */
     --card: #FFFFFF;
-    --card-foreground: #0A0A0A;
+    --card-foreground: #171717;
     --border: #E5E5E3;
     --input: #E5E5E3;
-    --ring: #0A0A0A;
-    --primary: #0A0A0A;
+    --ring: #171717;
+    --primary: #171717;
     --primary-foreground: #FFFFFF;
     --secondary: #F4F4F2;
     --secondary-foreground: #0A0A0A;
     --muted: #F4F4F2;
-    --muted-foreground: #66676B;
+    --muted-foreground: #52525B; /* Darker gray for better patient readability */
     --accent: #F4F4F2;
     --accent-foreground: #0A0A0A;
+    --brand: #2563EB; /* Healthcare Blue Accent */
+    --brand-foreground: #FFFFFF;
     --destructive: #ef4444;
     --destructive-foreground: #fafafa;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: #080808;
-    --foreground: #F5F5F5;
-    --card: #111214;
-    --card-foreground: #F5F5F5;
-    --border: #28292C;
-    --input: #28292C;
-    --ring: #F5F5F5;
-    --primary: #F5F5F5;
-    --primary-foreground: #080808;
-    --secondary: #17181A;
-    --secondary-foreground: #F5F5F5;
-    --muted: #17181A;
-    --muted-foreground: #A1A1A6;
-    --accent: #17181A;
-    --accent-foreground: #F5F5F5;
+    --background: #09090B; /* Deep charcoal */
+    --foreground: #FAFAFA; /* Off-white */
+    --card: #141415; /* Slightly lighter charcoal */
+    --card-foreground: #FAFAFA;
+    --border: #27272A; /* Subtle dark gray */
+    --input: #27272A;
+    --ring: #FAFAFA;
+    --primary: #FAFAFA;
+    --primary-foreground: #09090B;
+    --secondary: #1F1F22;
+    --secondary-foreground: #FAFAFA;
+    --muted: #1F1F22;
+    --muted-foreground: #A1A1AA; /* Soft gray */
+    --accent: #1F1F22;
+    --accent-foreground: #FAFAFA;
+    --brand: #3B82F6; /* Bright healthcare blue */
+    --brand-foreground: #FFFFFF;
     --destructive: #7f1d1d;
     --destructive-foreground: #fafafa;
   }
@@ -90,6 +97,14 @@
     font-family: var(--font-sans);
     transition: background-color 400ms ease-in-out, color 400ms ease-in-out;
   }
+  
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
 
   /* Focus ring for accessibility, premium style */
   *:focus-visible {
@@ -104,13 +119,13 @@
   }
   
   .glass {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(250, 250, 249, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
   
   .dark .glass {
-    background: rgba(9, 9, 11, 0.7);
+    background: rgba(9, 9, 11, 0.8);
   }
 }
